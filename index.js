@@ -5,43 +5,50 @@ class Vehicle {
   this.year = year;
  }
 
- // Абстрактний метод
  calculateFuelEfficiency() {
   throw new Error(
    "Abstract method 'calculateFuelEfficiency' must be implemented in derived classes"
   );
  }
 
- // Публічний метод
- getMakeAndModel() {
+ get makeAndModel() {
   return `${this.make} ${this.model}`;
  }
 
- // Захищений метод
  printYear() {
   console.log(`Manufactured in ${this.year}`);
  }
+
+ get efficiencyInfo() {
+  return "Efficiency information not available";
+ }
+
+ getTypeSpecificInfo() {
+  throw new Error(
+   "Abstract method 'getTypeSpecificInfo' must be implemented in derived classes"
+  );
+ }
 }
 
-// Дочірній клас Car
 class Car extends Vehicle {
  constructor(make, model, year, fuelEfficiency) {
   super(make, model, year);
   this.fuelEfficiency = fuelEfficiency;
  }
 
- // Реалізація абстрактного методу
  calculateFuelEfficiency() {
   return this.fuelEfficiency;
  }
 
- // Публічний метод
- getFuelEfficiency() {
+ get efficiencyInfo() {
   return `Fuel efficiency: ${this.fuelEfficiency} km per gallon`;
+ }
+
+ getTypeSpecificInfo() {
+  return "Type: Car";
  }
 }
 
-// Дочірній клас Motorcycle
 class Motorcycle extends Vehicle {
  constructor(make, model, year, fuelEfficiency, hasSideCar) {
   super(make, model, year);
@@ -49,18 +56,17 @@ class Motorcycle extends Vehicle {
   this.hasSideCar = hasSideCar;
  }
 
- // Реалізація абстрактного методу
  calculateFuelEfficiency() {
   return this.fuelEfficiency;
  }
 
- // Публічний метод
- hasSideCarInfo() {
-  return this.hasSideCar ? "Has a sidecar" : "Does not have a sidecar";
+ getTypeSpecificInfo() {
+  return this.hasSideCar
+   ? "Type: Motorcycle with sidecar"
+   : "Type: Motorcycle without sidecar";
  }
 }
 
-// Функція main
 function main() {
  const vehicles = [
   new Car("Toyota", "Camry", 2022, 30),
@@ -69,12 +75,13 @@ function main() {
  ];
 
  for (const vehicle of vehicles) {
-  vehicle.printYear(); // Виклик захищеного методу
-  console.log(vehicle.getMakeAndModel());
+  vehicle.printYear();
+  console.log(vehicle.makeAndModel);
   console.log(vehicle.calculateFuelEfficiency());
+  console.log(vehicle.efficiencyInfo);
+  console.log(vehicle.getTypeSpecificInfo());
   console.log("--------------------------");
  }
 }
 
-// Виклик функції main
 main();
